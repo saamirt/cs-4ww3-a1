@@ -1,0 +1,136 @@
+
+body {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.header {
+  width: 100%;
+  font-family: "Montserrat", "Times New Roman", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header--bordered {
+  border-bottom: 20px solid #353535;
+}
+
+.header--shadow {
+  -webkit-box-shadow: 0 7px 10px -6px #00000014;
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: 0 7px 10px -6px #00000014;
+}
+
+.header__title {
+  text-align: center;
+  margin: 0.5em 0px 0.2em;
+  font-weight: 900;
+  color: #f75b5c;
+  font-size: 2em;
+}
+
+footer {
+  background-color: white;
+  border-top: 20px solid #353535;
+  padding-bottom: 2rem;
+}
+
+footer p {
+  margin-bottom: 0.25rem;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+#main-body {
+  background-image: url(./public/bg.png);
+  background-size: 4em;
+  min-height: 1000px;
+}
+
+a.card {
+  color: inherit;
+}
+
+.card {
+  border: none;
+  transition: 0.15s ease-in-out;
+}
+
+.card--clickable {
+  cursor: pointer;
+}
+
+.card--clickable:hover {
+  box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.34);
+  transform: scale(1.01);
+}
+
+.card--clickable:active {
+  transition: 0.05s ease-in-out;
+  box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.34);
+  transform: scale(1.02);
+}
+
+.card-img-top {
+  object-fit: cover;
+}
+
+#buckle {
+  width: 70px;
+  height: 70px;
+  border: 20px solid #353535;
+  background-color: white;
+  border-radius: 70px;
+  transform: translatey(-65%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.map {
+  height: 50em;
+  max-height: 500px;
+  object-fit: cover;
+}
+
+.img--search {
+  height: 225px;
+}
+
+@media screen and (max-width: 768px) {
+  .img--search {
+    display: none;
+  }
+}
+
+.reviews {
+  max-height: 50em;
+  overflow: auto;
+}
+
+.btn--red {
+  border-color: #f75b5c;
+  background-color: #f75b5c;
+}
+
+.btn--red:hover {
+  color: #f75b5c;
+  border-color: inherit;
+  background-color: inherit;
+}
+
+.btn--red:active {
+  color: #f75b5c !important;
+  border-color: inherit !important;
+  background-color: inherit !important;
+}

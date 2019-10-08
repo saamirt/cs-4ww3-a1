@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Pokestop Locator - Search</title>
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900&amp;display=swap"
+		rel="stylesheet" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css" />
+	<script src="https://kit.fontawesome.com/90982212c1.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<header class="header">
+		<a href="index.html">
+			<h1 class="header__title">PokeStop Locator</h1>
+		</a>
+		<nav class="navbar navbar-expand-md navbar-light">
+			<button class="navbar-toggler mx-auto" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mx-auto">
+					<li class="nav-item">
+						<a class="nav-link active" href="index.html">Search <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="search-results.html">Results</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="pokestop.html">PokeStop</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="submission.html">Submission</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="user-registration.html">Registration</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<main>
+
+		<div id="main-body" class="album py-5 bg-light">
+			<div class="container">
+
+				<h3 class=" text-center text-white text-uppercase font-weight-bold">Search for a PokeStop</h3>
+				<p class="mb-4 text-center text-white">Search for a PokeStop either by
+					its' name or by its rating. Enter your search query or rating and click the adjacent search button.
+				</p>
+
+				<form class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Search by Title</span>
+					</div>
+					<input type="text" class="form-control" placeholder="Enter your query"
+						aria-label="Recipient's username">
+					<div class="input-group-append">
+						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+					</div>
+				</form>
+
+				<form class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Search by Rating</span>
+					</div>
+					<select class="custom-select" id="inputGroupSelect04">
+						<option selected>Choose...</option>
+						<option value="1">1 Star</option>
+						<option value="2">2 Stars</option>
+						<option value="3">3 Stars</option>
+						<option value="4">4 Stars</option>
+						<option value="5">5 Stars</option>
+					</select>
+					<div class="input-group-append">
+						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+					</div>
+				</form>
+
+
+			</div>
+		</div>
+
+	</main>
+
+	<footer class="text-muted">
+		<div id="buckle"></div>
+		<div class="container">
+			<p class="float-right">
+				<a href="#">Back to top</a>
+			</p>
+			<p>Made by Syed Aamir Tahir - 400134432. This website was made for a CS 4WW3 Assignment. Please ignore CSS validation errors pertaining to Bootstrap as they have explained their reasoning for why many CSS validators would believe some parts of their CSS to be invalid here https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/#validators. Please note that these are not CSS validation errors in my CSS but are part of Bootstrap and are unavoidable.</p>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+
+
+	<svg xmlns="http://www.w3.org/2000/svg" width="348" height="225" viewBox="0 0 348 225" preserveAspectRatio="none"
+		style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;">
+		<defs>
+			<style type="text/css"></style>
+		</defs><text x="0" y="17"
+			style="font-weight:bold;font-size:17pt;font-family:Arial, Helvetica, Open Sans, sans-serif">Thumbnail</text>
+	</svg>
+</body>
+
+</html>
