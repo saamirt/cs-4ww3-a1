@@ -66,8 +66,12 @@ let infoWindows = [];
 fillCards(pokestops);
 
 function initMap() {
+  center_loc = JSON.parse(sessionStorage.getItem("location"));
+  if (center_loc.lat == null || center_loc.lng == null) {
+    center_loc = { lat: 43.260949, lng: -79.913004 };
+  }
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 43.260949, lng: -79.913004 },
+    center: center_loc,
     zoom: 16
   });
 

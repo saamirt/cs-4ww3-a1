@@ -77,18 +77,19 @@
 					its' name or by its rating. Enter your search query or rating and click the adjacent search button.
 				</p>
 
-				<form class="input-group mb-3">
+				<form class="input-group mb-3" onsubmit="return submitForm(event)">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Search by Title</span>
 					</div>
 					<input type="text" class="form-control" placeholder="Enter your query"
 						aria-label="Recipient's username">
 					<div class="input-group-append">
-						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+						<button class="btn btn-default" type="submit"><i
+								class="fas fa-search"></i></button>
 					</div>
 				</form>
 
-				<form class="input-group mb-3">
+				<form class="input-group mb-3" onsubmit="return submitForm(event)">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Search by Rating</span>
 					</div>
@@ -101,7 +102,8 @@
 						<option value="5">5 Stars</option>
 					</select>
 					<div class="input-group-append">
-						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+						<button class="btn btn-default" type="submit"><i
+								class="fas fa-search"></i></button>
 					</div>
 				</form>
 

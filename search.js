@@ -8,10 +8,21 @@ function getLocation() {
   }
 }
 
+function storeLocation(lat, lng) {
+  sessionStorage.setItem("location", JSON.stringify({ lat, lng }));
+  window.location.href = "./search-results.html";
+}
+
 function showPosition(position) {
-  x.innerHTML =
-    "Latitude: " +
-    position.coords.latitude +
-    "<br>Longitude: " +
-    position.coords.longitude;
+  storeLocation(position.coords.latitude, position.coords.longitude);
+  alert(
+    `Latitude: ${position.coords.latitude}\nLongitude: ${position.coords.longitude}`
+  );
+  x.innerHTML = `Latitude: ${position.coords.latitude}<br\>Longitude: ${position.coords.longitude}`;
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  storeLocation(null, null);
+  return false;
 }
