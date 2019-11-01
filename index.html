@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
 
 	<!-- Using font from google fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900&amp;display=swap"
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&amp;display=swap"
 		rel="stylesheet" />
 
 	<!-- Using bootstrap for more responsive site -->
@@ -24,6 +24,7 @@
 
 	<!-- adding font-awesome icons -->
 	<script src="https://kit.fontawesome.com/90982212c1.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -46,9 +47,9 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mx-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="index.html">Search <span class="sr-only">(current)</span></a>
+						<a class="nav-link active" href="index.html">Search <span class="sr-only">(current)</span></a>
 					</li>
-					<li class="nav-item active">
+					<li class="nav-item">
 						<a class="nav-link" href="search-results.html">Results</a>
 					</li>
 					<li class="nav-item">
@@ -87,7 +88,7 @@
 					</div>
 				</form>
 
-				<form class="input-group">
+				<form class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Search by Rating</span>
 					</div>
@@ -103,6 +104,15 @@
 						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
 					</div>
 				</form>
+
+				<div class="input-group mb-3">
+					<button class="btn btn-light mx-auto" onclick="getLocation()">Search Near Your Location <i
+							class="fas fa-search"></i></button>
+				</div>
+
+				<div class="input-group mb-3">
+					<h5 id="latlong" class="mx-auto">Found you at: </h5>
+				</div>
 
 
 			</div>
@@ -135,6 +145,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script>
+	<script src="search.js"></script>
 </body>
 
 </html>

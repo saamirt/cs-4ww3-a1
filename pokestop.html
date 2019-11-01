@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
 
 	<!-- Using font from google fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900&amp;display=swap"
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&amp;display=swap"
 		rel="stylesheet" />
 
 	<!-- Using bootstrap for more responsive site -->
@@ -72,18 +72,19 @@
 				<!-- main card that contains details about the pokestop -->
 				<div class="card mb-5">
 					<!-- small header above card that shows lat/long -->
-					<div class="card-header text-center small">
+					<div id="pokestop-loc" class="card-header text-center small">
 						Latitude: 43.261199, Longitude: -79.916565
 					</div>
 					<!-- main body of the card -->
 					<div class="card-body">
-						<h5 class="card-title text-center">PokeStop Name</h5>
+						<h5 id="pokestop-title" class="card-title text-center">PokeStop Name</h5>
 						<p class="card-text text-center">Here's a short description of the PokeStop. This PokeStop is
 							fictional and does not exist. </p>
-						<!-- iframe that embeds google maps (temporarily) into site. This will be modified when adding the locations onto the map. -->
-						<iframe class="w-100 card map mb-4"
+						<!-- <iframe class="w-100 card map mb-4"
 							src="https://maps.google.com/maps?q=mcmaster&t=&z=16&ie=UTF8&iwloc=&output=embed"
-							allowfullscreen></iframe>
+							allowfullscreen></iframe> -->
+						<!-- Google Api Map -->
+						<div class="w-100 card map mb-4" id="map"></div>
 
 						<!-- list of reviews -->
 						<div class="reviews list-group overflow-auto">
@@ -185,6 +186,9 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script>
+	<script src="pokestop.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBnMuPBJUs37mOls7fPhrcF0E5MPe3l4Y&callback=initMap"
+		async defer></script>
 </body>
 
 </html>
