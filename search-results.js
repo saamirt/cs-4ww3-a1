@@ -84,7 +84,9 @@ function initMap() {
         '<div id="siteNotice">' +
         "</div>" +
         '<div id="bodyContent" class="marker__content text-center">' +
-        '<a href="./pokestop.html">' +
+        `<a onclick="storeStop('${stop["title"]}',${stop["loc"].lat},${
+          stop["loc"].lng
+        },'${stop["img"]}')" href="#">` +
         `<h5>${stop["title"]}</h5>` +
         "</a>" +
         `<p>${formatLoc(stop["loc"])}</p>` +
