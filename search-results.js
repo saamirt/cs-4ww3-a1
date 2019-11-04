@@ -3,79 +3,112 @@ let pokestops = [
   {
     title: "University at Life Sciences",
     loc: { lat: 43.260891, lng: -79.918625 },
-    img: "./public/pokestops/pokestop1.png"
+    img: "./public/pokestops/pokestop1.png",
+    desc:
+      "Bus stop outside the Life Sciences building towards the John Hodgins Engineering building."
   },
   {
     title: "Health Sciences Entrance",
     loc: { lat: 43.260274, lng: -79.918101 },
-    // img:
-    //   "https://www.homesinhamiltonontario.com/account/2b7e81c6291f26fe/pages/134502_17.jpg",
-    img: "./public/pokestops/pokestop2.png"
+    img: "./public/pokestops/pokestop2.png",
+    desc:
+      "Entrance to Health Sciences building facing towards Life Sciences building."
   },
   {
     title: "Willy Dog",
     loc: { lat: 43.262887, lng: -79.918727 },
-    // img:
-    //   "https://cdn.hpm.io/wp-content/uploads/2019/08/22150125/IMG_1186-1000x562.jpg",
-    img: "./public/pokestops/pokestop3.png"
+    img: "./public/pokestops/pokestop3.png",
+    desc:
+      "Hot Dog stand outside McMaster University Student Centre and Mills Memorial Library."
   },
   {
     title: "East Meets West Bistro",
     loc: { lat: 43.262418, lng: -79.922495 },
-    // img:
-    //   "http://static1.squarespace.com/static/5605ab7ee4b0d59ead0d6e68/5616b80fe4b036a0b93c1939/57361fa307eaa0bc96fcdc3d/1496368931528/toronto-premium-outlets-38308e481552ab9ad83ced7596690acf.jpg?format=1500w",
-    img: "./public/pokestops/pokestop4.png"
+    img: "./public/pokestops/pokestop4.png",
+    desc:
+      "International restaurant-style dining featuring multicultural cuisine inside the Mary Keyes building."
   },
   {
     title: "Arts Quad",
     loc: { lat: 43.263992, lng: -79.917618 },
     // img: "https://live.staticflickr.com/7032/6700062117_108029f569_b.jpg",
-    img: "./public/pokestops/pokestop5.png"
+    img: "./public/pokestops/pokestop5.png",
+    desc:
+      "Paved area located between the McMaster University Student Centre, Kenneth Taylor Hall, and Togo Salmon Hall."
   },
   {
     title: "Dalewood Recreation Centre",
     loc: { lat: 43.258357, lng: -79.912333 },
     // img:
     //   "https://www.brookfieldpropertiesretail.com/content/dam/ggp-digital-assets/Images/Mall-Images/Exteriors/baybrook-hero-04.jpg/_jcr_content/renditions/original.jpg",
-    img: "./public/pokestops/pokestop6.png"
+    img: "./public/pokestops/pokestop6.png",
+    desc:
+      "Community recreation centre located near the Westdale area on Main st."
   },
   {
     title: "Dough Box Wood Fired Pizza",
     loc: { lat: 43.257474, lng: -79.924041 },
     // img:
     //   "https://www.dubai-online.com/wp-content/uploads/2012/05/ss_790728556.jpg",
-    img: "./public/pokestops/pokestop7.png"
+    img: "./public/pokestops/pokestop7.png",
+    desc:
+      "Hot Dog stand outside McMaster University Student Centre and Mills Memorial Library."
   },
   {
     title: "Lazeez Shawarma",
     loc: { lat: 43.261548, lng: -79.906421 },
     // img:
     //   "https://imagevars.gulfnews.com/2019/08/16/190816-dubai-mall-dinosaur_16c9b186c33_large.jpg",
-    img: "./public/pokestops/pokestop8.png"
+    img: "./public/pokestops/pokestop8.png",
+    desc: "Middle Eastern fast-food restaurant located in the Westdale area."
   },
   {
     title: "OneZo Tapioca",
     loc: { lat: 43.261359, lng: -79.906909 },
     // img:
     //   "https://squareonelife.com/wp-content/uploads/2015/06/kariya-park-square-one-condos-downtown-mississauga-condos.jpg",
-    img: "./public/pokestops/pokestop9.png"
+    img: "./public/pokestops/pokestop9.png",
+    desc:
+      "Bubble Tea restaurant in the Westdale area known for making their own tapioca pearls."
   }
 ];
 let infoWindows = [];
 
-fillCards(pokestops);
+function getDistance(loc1, loc2) {
+  return google.maps.geometry.spherical.computeDistanceBetween(
+    new google.maps.LatLng(loc1),
+    new google.maps.LatLng(loc2)
+  );
+}
 
 function initMap() {
   center_loc = JSON.parse(sessionStorage.getItem("location"));
   if (center_loc.lat == null || center_loc.lng == null) {
     center_loc = { lat: 43.260949, lng: -79.913004 };
   }
+
+  pokestops.sort((a, b) => {
+    return getDistance(center_loc, a.loc) - getDistance(center_loc, b.loc);
+  });
+
+  fillCards(pokestops);
+
   map = new google.maps.Map(document.getElementById("map"), {
     center: center_loc,
     zoom: 16
   });
 
   pokestops.forEach(stop => {
+    // let flightPath = new google.maps.Polyline({
+    //   path: [center_loc, stop.loc],
+    //   geodesic: true,
+    //   strokeColor: "#FF0000",
+    //   strokeOpacity: 1.0,
+    //   strokeWeight: 2
+    // });
+
+    // flightPath.setMap(map);
+
     stop["marker"] = new google.maps.Marker({
       position: stop.loc,
       map: map,
@@ -122,6 +155,14 @@ function closeInfoWindows() {
   infoWindows = [];
 }
 
+function formatDistance(dist) {
+  if (dist > 1000) {
+    return `${Math.round(dist / 10) / 100}km`;
+  } else {
+    return `${Math.round(dist)}m`;
+  }
+}
+
 function formatLoc(loc) {
   return `${loc.lat}, ${loc.lng}`;
 }
@@ -129,21 +170,34 @@ function formatLoc(loc) {
 function fillCards(pokestops) {
   pokestops.forEach(stop => {
     card =
-      '<div class="col-lg-4">' +
+      '<div class="col-lg-4 d-flex align-items-stretch">' +
       `    <a onclick="storeStop('${stop["title"]}',${stop["loc"].lat},${
         stop["loc"].lng
       },'${
         stop["img"]
-      }')" href="#" class="card card--clickable mb-4 shadow--sm">` +
+      }')" href="#" class="pokestop-card card card--clickable mb-4 shadow--sm">` +
       '        <img class="card-img-top img--search" alt="PokeStop Image"' +
       `            src="${stop["img"]}"` +
       '            data-holder-rendered="true">' +
       "        <!-- each card has some temporary hardcoded text to show what it may look like -->" +
       '        <div class="card-body">' +
-      `            <h5 class="card-title">${stop["title"]}</h5>` +
-      `            <p class="card-text">${formatLoc(stop["loc"])}</p>` +
-      `            <p class="card-text"><small class="text-muted">Added 10 days ago</small></p>` +
+      '           <div class="card-title d-flex justify-content-between">' +
+      `               <h5>` +
+      `                   ${stop["title"]}` +
+      `               </h5>` +
+      `               <h6>` +
+      `                   <span class="badge badge-light badge--gray">` +
+      `                       ${formatDistance(
+        getDistance(center_loc, stop["loc"])
+      )}` +
+      `                   </span>` +
+      `               </h6>` +
+      "            </div>" +
+      `            <p class="card-text">${stop["desc"]}</p>` +
       "        </div>" +
+      `        <div class="card-footer--transparent card-footer text-muted">` +
+      `          Added 10 days ago` +
+      `        </div>` +
       "    </a>" +
       "</div>";
 
