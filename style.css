@@ -10,6 +10,11 @@ a.card {
   color: inherit;
 }
 
+.badge--gray {
+  color: #4f5255;
+  background-color: #ededed;
+}
+
 body {
   display: block;
 }
@@ -71,6 +76,15 @@ body {
   object-fit: cover;
 }
 
+.card-footer {
+  font-size: 0.8em;
+}
+
+.card-footer--transparent {
+  background-color: rgba(0, 0, 0, 0);
+  border-top: none;
+}
+
 footer {
   background-color: white;
   border-top: 20px solid #353535;
@@ -124,7 +138,7 @@ input:required {
   /* box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25); */
 }
 
-input:valid{
+input:valid {
   border-color: #ced4da;
 }
 
