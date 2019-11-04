@@ -7,6 +7,7 @@ populateStop();
 function populateStop() {
   $("#pokestop-title").text(pokestop.title);
   $("#pokestop-loc").text(formatLoc(pokestop.loc));
+  $("#pokestop-desc").text(pokestop.desc || "saasd");
 }
 
 function initMap() {

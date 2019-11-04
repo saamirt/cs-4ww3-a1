@@ -83,7 +83,7 @@ function getDistance(loc1, loc2) {
 
 function initMap() {
   center_loc = JSON.parse(sessionStorage.getItem("location"));
-  if (center_loc.lat == null || center_loc.lng == null) {
+  if (!center_loc || center_loc.lat == null || center_loc.lng == null) {
     center_loc = { lat: 43.260949, lng: -79.913004 };
   }
 
@@ -123,7 +123,7 @@ function initMap() {
         '<div id="bodyContent" class="marker__content text-center">' +
         `<a onclick="storeStop('${stop["title"]}',${stop["loc"].lat},${
           stop["loc"].lng
-        },'${stop["img"]}')" href="#">` +
+        },'${stop["img"]}', '${stop["desc"]}')" href="#">` +
         `<h5>${stop["title"]}</h5>` +
         "</a>" +
         `<p>${formatLoc(stop["loc"])}</p>` +
@@ -173,16 +173,16 @@ function fillCards(pokestops) {
       '<div class="col-lg-4 d-flex align-items-stretch">' +
       `    <a onclick="storeStop('${stop["title"]}',${stop["loc"].lat},${
         stop["loc"].lng
-      },'${
-        stop["img"]
+      },'${stop["img"]}', '${
+        stop["desc"]
       }')" href="#" class="pokestop-card card card--clickable mb-4 shadow--sm">` +
       '        <img class="card-img-top img--search" alt="PokeStop Image"' +
       `            src="${stop["img"]}"` +
       '            data-holder-rendered="true">' +
       "        <!-- each card has some temporary hardcoded text to show what it may look like -->" +
       '        <div class="card-body">' +
-      '           <div class="card-title d-flex justify-content-between">' +
-      `               <h5>` +
+      '           <div class="d-flex justify-content-between">' +
+      `               <h5 class="card-title card-title--ellipsis">` +
       `                   ${stop["title"]}` +
       `               </h5>` +
       `               <h6>` +
@@ -205,10 +205,10 @@ function fillCards(pokestops) {
   });
 }
 
-function storeStop(title, lat, lng, img) {
+function storeStop(title, lat, lng, img, desc = "") {
   sessionStorage.setItem(
     "currentStop",
-    JSON.stringify({ title, loc: { lat, lng }, img })
+    JSON.stringify({ title, loc: { lat, lng }, img, desc })
   );
   window.location.href = "./pokestop.html";
   // window.location.href = `./pokestop.html?title=${title}&lat=${lat}&lng=${lng}&img=${img}&`;

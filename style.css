@@ -85,6 +85,13 @@ body {
   border-top: none;
 }
 
+.card-title--ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 2px;
+}
+
 footer {
   background-color: white;
   border-top: 20px solid #353535;

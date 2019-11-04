@@ -14,11 +14,11 @@ function storeLocation(lat, lng) {
 }
 
 function showPosition(position) {
+  x.innerHTML = `Latitude: ${position.coords.latitude}<br\>Longitude: ${position.coords.longitude}`;
   storeLocation(position.coords.latitude, position.coords.longitude);
   alert(
     `Latitude: ${position.coords.latitude}\nLongitude: ${position.coords.longitude}`
   );
-  x.innerHTML = `Latitude: ${position.coords.latitude}<br\>Longitude: ${position.coords.longitude}`;
 }
 
 function submitForm(e) {
