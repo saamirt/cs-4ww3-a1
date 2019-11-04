@@ -195,7 +195,7 @@ function fillCards(pokestops) {
       "            </div>" +
       `            <p class="card-text">${stop["desc"]}</p>` +
       "        </div>" +
-      `        <div class="card-footer--transparent card-footer text-muted">` +
+      `        <div class="card-footer text-muted">` +
       `          Added 10 days ago` +
       `        </div>` +
       "    </a>" +
