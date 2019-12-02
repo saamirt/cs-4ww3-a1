@@ -1,41 +1,53 @@
+<!-- importing header -->
 <?php require "templates/header.php"; ?>
 
 <?php
+// converts the query parameters into variables
 parse_str($_SERVER['QUERY_STRING']);
 try {
+	// connect to db
 	$connection = new PDO($dsn, $username, $password, $options);
 
+	// sql query to combine pokestops with their average ratings (determined by averaging all ratings for a pokestop)
 	$sql = "SELECT * FROM pokestops LEFT JOIN (SELECT pokestopID, AVG(rating) as avg_rating FROM reviews GROUP BY pokestopID) table2 ON pokestops.pokestopID = table2.pokestopID WHERE pokestops.pokestopID = :id";
 
+	// execute query
 	$statement = $connection->prepare($sql);
 	$statement->bindParam(':id', $id, PDO::PARAM_INT);
 	$statement->execute();
 	$result = $statement->fetchAll();
 	$stop = $result[0];
 
+
+	// sql query to get reviews for the pokestop
 	$sql2 = "SELECT * FROM reviews WHERE pokestopID = :id";
 
 	$statement2 = $connection->prepare($sql2);
 	$statement2->bindParam(':id', $id, PDO::PARAM_INT);
 	$statement2->execute();
 	$result2 = $statement2->fetchAll();
+
+	// stores the results in javascript for other functions to use
 	echo "<script>var pokestop = " . json_encode($stop) . ';</script>';
 } catch (PDOException $error) {
 	echo $sql . "<br>" . $error->getMessage();
 }
 
 
+// wait for form submit
 if (isset($_POST['submit'])) {
 	try {
+		// connect to db
 		$connection = new PDO($dsn, $username, $password, $options);
 		$new_user = array(
 			"pokestopID" => $stop['pokestopID'],
 			"title" => $_POST['title'],
 			"text" => $_POST['text'],
-			"rating" => 3,
+			"rating" => $_POST['rating'],
 			"author" => $_SESSION['email']
 		);
 
+		// creates a query based on form array to add a new review
 		$sql = sprintf(
 			"INSERT INTO %s (%s) values (%s)",
 			"reviews",
@@ -43,6 +55,7 @@ if (isset($_POST['submit'])) {
 			":" . implode(", :", array_keys($new_user))
 		);
 
+		// executes query
 		$statement = $connection->prepare($sql);
 		$statement->execute($new_user);
 		header("Refresh:0");
@@ -93,13 +106,16 @@ if (isset($_POST['submit'])) {
 							<?php } ?>
 						</div>
 					<?php } else { ?>
+						<!-- if there are no reviews -->
 						<div class="text-center">
 							There are currently no reviews
 						</div>
 					<?php } ?>
 
 					<?php
+					// check if logged in
 					if (!empty($_SESSION['email'])) { ?>
+						<!-- show form only when logged in -->
 						<form className="mt-3" method="post">
 							<div class="form-group">
 								<label for="title">Title</label>
@@ -120,6 +136,7 @@ if (isset($_POST['submit'])) {
 							<button class="btn btn-primary" type="submit" name="submit">Submit</button>
 						</form>
 					<?php } else { ?>
+						<!-- show a fake disabled version of the form if not logged in -->
 						<div class="mt-3 text-center">
 							Sign in to leave a review
 						</div>
@@ -140,9 +157,6 @@ if (isset($_POST['submit'])) {
 					<?php } ?>
 				</div>
 				<!-- small footer on the bottom of the card -->
-				<div class="card-footer text-muted">
-					Added 10 days ago
-				</div>
 			</div>
 
 		</div>
@@ -151,5 +165,8 @@ if (isset($_POST['submit'])) {
 </main>
 
 <script src="./js/pokestop.js"></script>
+<!-- google maps -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBnMuPBJUs37mOls7fPhrcF0E5MPe3l4Y&libraries=geometry&callback=initMap" async defer></script>
+
+<!-- footer -->
 <?php require "templates/footer.php"; ?>

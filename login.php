@@ -1,34 +1,38 @@
+<!-- import header -->
 <?php require "templates/header.php"; ?>
 
 <?php
 
-/**
- * Use an HTML form to create a new entry in the
- * users table.
- *
- */
+// wait for form submit
 if (isset($_POST['submit'])) {
 
     try {
+        // connect to db
         $connection = new PDO($dsn, $username, $password, $options);
 
         $email = $_POST['email'];
+        // password is hashed before sign up and the hash of the input is checked on login
         $pwd = sha1($_POST['password']);
 
-        $sql = "SELECT * FROM users WHERE email = :email";
+        // sql query for user
+        $sql = "SELECT * FROM users WHERE email = :email AND passwordHash = :passwordHash";
 
-        // echo sha1($_POST['password']);
+        // executes the query
         $statement = $connection->prepare($sql);
         $statement->bindParam(':email', $email, PDO::PARAM_STR);
-        // $statement->bindParam(':passwordHash', $pwd, PDO::PARAM_STR);
+        $statement->bindParam(':passwordHash', $pwd, PDO::PARAM_STR);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // checks if auth worked
         if ($result != false) {
             if ($pwd == $result['passwordHash']) {
+                // sets session details
                 $_SESSION['firstname'] = $result['firstname'];
                 $_SESSION['lastname'] = $result['lastname'];
                 $_SESSION['email'] = $result['email'];
                 $_SESSION['passwordHash'] = $result['passwordHash'];
+                // redirects to index page
                 header('Location: index.php');
                 exit;
             }
@@ -46,7 +50,7 @@ if (isset($_POST['submit'])) {
         <div class="container">
             <div class="alert alert-danger" style="visibility: hidden;" role="alert" id="error">
             </div>
-
+            <!-- alert for incorrect login -->
             <?php if (isset($_POST['submit']) && $statement && $result != false) { ?>
                 <div class="alert alert-danger" role="alert" id="error">
                     Incorrect or non-existent login.
@@ -57,6 +61,7 @@ if (isset($_POST['submit'])) {
                     <h5 class="card-title text-center">Login</h5>
                     <p class="card-text text-center">Complete this form to login</p>
 
+                    <!-- login form -->
                     <form method="post">
                         <div class="form-group">
                             <label for="email">Email address</label>
@@ -82,6 +87,8 @@ if (isset($_POST['submit'])) {
 
 </main>
 
+<!-- local javascript -->
 <script src="./js/user-registration.js"></script>
 
+<!-- footer -->
 <?php require "templates/footer.php"; ?>

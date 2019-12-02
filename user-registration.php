@@ -1,17 +1,14 @@
+<!-- header -->
 <?php require "templates/header.php"; ?>
 
 <?php
 
-/**
- * Use an HTML form to create a new entry in the
- * users table.
- *
- */
 
-
+// waits for form to submit
 if (isset($_POST['submit'])) {
 
     try {
+        // connect to db
         $connection = new PDO($dsn, $username, $password, $options);
 
         $new_user = array(
@@ -19,6 +16,7 @@ if (isset($_POST['submit'])) {
             "passwordHash" => sha1($_POST['password']),
         );
 
+        // generate sql query to add user
         $sql = sprintf(
             "INSERT INTO %s (%s) values (%s)",
             "users",
@@ -26,8 +24,10 @@ if (isset($_POST['submit'])) {
             ":" . implode(", :", array_keys($new_user))
         );
 
+        // execute query
         $statement = $connection->prepare($sql);
         $statement->execute($new_user);
+        // add a query parameter for a new user
         header('Location: user-registration.php?action=joined');
         exit;
     } catch (PDOException $error) {
@@ -132,6 +132,8 @@ if (isset($_POST['submit'])) {
 
 </main>
 
+<!-- local javascript for user registration -->
 <script src="./js/user-registration.js"></script>
 
+<!-- footer -->
 <?php require "templates/footer.php"; ?>

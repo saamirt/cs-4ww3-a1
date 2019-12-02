@@ -8,7 +8,7 @@ session_start();
 
 $host       = "localhost";
 $username   = "root";
-$password   = "";
+$password   = "ssEHF3xYZ81SxNL2";
 $dbname     = "pokestopdb";
 $dsn        = "mysql:host=$host;dbname=$dbname";
 $options    = array(

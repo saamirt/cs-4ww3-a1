@@ -1,7 +1,7 @@
 <?php
 
-require "../config.php";
-require "../common.php";
+require "./config.php";
+require "./common.php";
 ?>
 
 <!doctype html>

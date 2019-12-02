@@ -1,3 +1,4 @@
+<!-- header and aws keys -->
 <?php require "templates/header.php";
 require './aws.php'; ?>
 <?php
@@ -11,12 +12,13 @@ require './aws.php'; ?>
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 
-
+// waits for form submission
 if (isset($_POST['submit'])) {
 
 	try {
+		// connect to db
 		$connection = new PDO($dsn, $username, $password, $options);
 		$new_user = array(
 			"title" => $_POST['title'],
@@ -26,6 +28,7 @@ if (isset($_POST['submit'])) {
 			"image"     => $_FILES['fileToUpload']['name']
 		);
 
+		// sql query generated to add pokestop
 		$sql = sprintf(
 			"INSERT INTO %s (%s) values (%s)",
 			"pokestops",
@@ -33,15 +36,18 @@ if (isset($_POST['submit'])) {
 			":" . implode(", :", array_keys($new_user))
 		);
 
+		// query executed
 		$statement = $connection->prepare($sql);
 		$statement->execute($new_user);
 	} catch (PDOException $error) {
 		echo $sql . "<br>" . $error->getMessage();
 	}
 
+	// bucket for aws s3
 	$bucketName = 'cs4ww3-pokestop-images';
 
 	try {
+		// connect to S3
 		$s3 = S3Client::factory(
 			array(
 				'credentials' => array(
@@ -56,13 +62,12 @@ if (isset($_POST['submit'])) {
 		die("Error: " . $e->getMessage());
 	}
 
-	// For this, I would generate a unqiue random string for the key name. But you can do whatever.
+	// gets file name for s3
 	$keyName = 'pokestops/' . basename($_FILES["fileToUpload"]['name']);
 	$pathInS3 = 'https://s3.us-east-2.amazonaws.com/' . $bucketName . '/' . $keyName;
-	// Add it to S3
 	try {
-		// Uploaded:
 		$file = $_FILES["fileToUpload"]['tmp_name'];
+		// stores image in S3 bucket
 		$s3->putObject(
 			array(
 				'Bucket' => $bucketName,
@@ -142,6 +147,8 @@ if (isset($_POST['submit'])) {
 
 </main>
 
+<!-- local javascript for submission -->
 <script src="./js/submission.js"></script>
 
+<!-- footer -->
 <?php require "templates/footer.php"; ?>

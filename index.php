@@ -1,3 +1,4 @@
+<!-- importing header and aws keys -->
 <?php require "templates/header.php";
 require './aws.php'; ?>
 <?php
@@ -11,18 +12,22 @@ require './aws.php'; ?>
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 
+// checking if form is submitted
 if (isset($_POST['submit'])) {
+    // switching query based on which form was submitted
     if ($_POST['action'] == "rating") {
         try {
-
+            // connecting to db
             $connection = new PDO($dsn, $username, $password, $options);
 
+            // sql query to combine pokestops with their average ratings (determined by averaging all ratings for a pokestop)
             $sql = "SELECT * FROM pokestops JOIN (SELECT pokestopID, AVG(rating) as avg_rating FROM reviews GROUP BY pokestopID) table2 ON pokestops.pokestopID = table2.pokestopID WHERE avg_rating >= :rating";
 
             $rating = $_POST['rating'];
 
+            // executing query
             $statement = $connection->prepare($sql);
             $statement->bindParam(':rating', $rating, PDO::PARAM_INT);
             $statement->execute();
@@ -33,12 +38,15 @@ if (isset($_POST['submit'])) {
     } elseif ($_POST['action'] == "title") {
         try {
 
+            // connecting to db
             $connection = new PDO($dsn, $username, $password, $options);
 
+            // sql query to combine pokestops with their average ratings (determined by averaging all ratings for a pokestop)
             $sql = "SELECT * FROM pokestops LEFT JOIN (SELECT pokestopID, AVG(rating) as avg_rating FROM reviews GROUP BY pokestopID) table2 ON pokestops.pokestopID = table2.pokestopID WHERE title LIKE :title";
 
             $title = $_POST['title'] . "%";
 
+            // executing query
             $statement = $connection->prepare($sql);
             $statement->bindParam(':title', $title, PDO::PARAM_STR);
             $statement->execute();
@@ -49,10 +57,13 @@ if (isset($_POST['submit'])) {
     } else {
         try {
 
+            // connecting to db
             $connection = new PDO($dsn, $username, $password, $options);
 
+            // sql query to combine pokestops with their average ratings (determined by averaging all ratings for a pokestop)
             $sql = "SELECT * FROM pokestops LEFT JOIN (SELECT pokestopID, AVG(rating) as avg_rating FROM reviews GROUP BY pokestopID) table2 ON pokestops.pokestopID = table2.pokestopID";
 
+            // executing query
             $statement = $connection->prepare($sql);
             $statement->execute();
             $result = $statement->fetchAll();
@@ -60,12 +71,14 @@ if (isset($_POST['submit'])) {
             echo $sql . "<br>" . $error->getMessage();
         }
     }
+    // adding db results to javascript for other functions
     echo "<script>var pokestops = " . json_encode($result) . ';</script>';
 }
 
+// connecting to s3 bucket to retrieve images
 $bucketName = 'cs4ww3-pokestop-images';
-
 try {
+    // connecting to s3
     $s3 = S3Client::factory(
         array(
             'credentials' => array(
@@ -80,23 +93,6 @@ try {
     die("Error: " . $e->getMessage());
 }
 
-// Add it to S3
-// foreach ($result as $row) {
-//     try {
-
-//         $cmd = $s3->getCommand('GetObject', [
-//             'Bucket' => "cs4ww3-pokestop-images",
-//             'Key' =>  "pokestops/pokestop9.png"
-//         ]);
-//         $request = $s3->createPresignedRequest($cmd, '+20 minutes');
-//         $row['url'] = (string) $request->getUri();
-//         echo $row['url'];
-//     } catch (S3Exception $e) {
-//         die('Error:' . $e->getMessage());
-//     } catch (Exception $e) {
-//         die('Error:' . $e->getMessage());
-//     }
-// }
 ?>
 <script src="./js/search.js"></script>
 
@@ -106,12 +102,15 @@ try {
         <!-- container to keep page content in a centered box -->
         <div class="container">
 
+            <!-- this is the search form section with all the various search methods -->
+
             <h3 class=" text-center text-white text-uppercase font-weight-bold">Search for a PokeStop</h3>
             <p class="mb-4 text-center text-white">Search for a PokeStop either by
                 its' name or by its rating. Enter your search query or rating and click the adjacent search button.
                 Clicking the search buttons without entering anything will show all the pokestops.
             </p>
 
+            <!-- search by title -->
             <form class="input-group mb-3" method="post">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Search by Title</span>
@@ -123,6 +122,7 @@ try {
                 </div>
             </form>
 
+            <!-- search by rating (finds pokestops with equal or greater rating) -->
             <form class="input-group mb-3" method="post">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Search by Rating</span>
@@ -141,12 +141,14 @@ try {
                 </div>
             </form>
 
+            <!-- search by location -->
             <form class="input-group mb-3" method="post">
                 <input type="hidden" name="action" value="location">
                 <button class="btn btn-light mx-auto" onclick="getLocation()" type="submit" name="submit">Search Near Your Location <i class="fas fa-search"></i></button>
             </form>
 
             <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+            <!-- from here on, its displaying search results -->
 
             <h3 class=" text-center text-white text-uppercase font-weight-bold">Search Results</h3>
             <p class="mb-4 text-center text-white">PokeStop Search results are displayed on a map and as tabular
@@ -185,13 +187,17 @@ try {
                 <?php
 
                 if (isset($_POST['submit'])) {
+                    //checks for valid results before displaying pokestops
                     if ($result && $statement->rowCount() > 0) { ?>
+                        <!-- displays each pokestop from db based on search method -->
                         <?php foreach ($result as $row) {
+                                    // retrieves an authorized url for each image
                                     try {
                                         $cmd = $s3->getCommand('GetObject', [
                                             'Bucket' => "cs4ww3-pokestop-images",
                                             'Key' =>  "pokestops/" . $row["image"]
                                         ]);
+                                        // sets up a requst for the image for the next 20 minutes
                                         $request = $s3->createPresignedRequest($cmd, '+20 minutes');
                                         $row['url'] = (string) $request->getUri();
                                     } catch (S3Exception $e) {
@@ -199,6 +205,7 @@ try {
                                     } catch (Exception $e) {
                                         die('Error:' . $e->getMessage());
                                     } ?>
+                            <!-- card that displays the pokestop -->
                             <div class="col-lg-4 d-flex align-items-stretch">
                                 <a href="./pokestop.php?&id=<?php echo escape($row[0]); ?>" class="pokestop-card card card--clickable mb-4 shadow--sm">
                                     <img class="card-img-top img--search" alt="PokeStop Image" src="<?php echo escape($row["url"]); ?>" data-holder-rendered="true">
@@ -228,5 +235,8 @@ try {
 <script src="./js/submission.js"></script>
 <script src="./js/user-registration.js"></script> -->
 
+<!-- google maps api -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBnMuPBJUs37mOls7fPhrcF0E5MPe3l4Y&libraries=geometry&callback=initMap" async defer></script>
+
+<!-- footer -->
 <?php require "templates/footer.php"; ?>
