@@ -10,7 +10,7 @@ function getLocation() {
 
 function storeLocation(lat, lng) {
   sessionStorage.setItem("location", JSON.stringify({ lat, lng }));
-  window.location.href = "./search-results.html";
+  window.location.href = "./search-results.php";
 }
 
 function showPosition(position) {

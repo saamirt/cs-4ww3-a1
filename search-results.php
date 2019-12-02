@@ -24,14 +24,13 @@
 
 	<!-- adding font-awesome icons -->
 	<script src="https://kit.fontawesome.com/90982212c1.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
 	<!-- header that appears on every page -->
 	<header class="header">
 		<!-- main title which also serves as a link back to the home page -->
-		<a href="index.html">
+		<a href="index.php">
 			<h1 class="header__title">PokeStop Locator</h1>
 		</a>
 		<!-- navigation menu -->
@@ -47,16 +46,16 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mx-auto">
 					<li class="nav-item">
-						<a class="nav-link active" href="index.html">Search <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="index.php">Search <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="search-results.php">Results</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="search-results.html">Results</a>
+						<a class="nav-link" href="submission.php">Submission</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="submission.html">Submission</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="user-registration.html">Registration</a>
+						<a class="nav-link" href="user-registration.php">Registration</a>
 					</li>
 				</ul>
 			</div>
@@ -69,49 +68,40 @@
 			<!-- container to keep page content in a centered box -->
 			<div class="container">
 
-				<h3 class=" text-center text-white text-uppercase font-weight-bold">Search for a PokeStop</h3>
-				<p class="mb-4 text-center text-white">Search for a PokeStop either by
-					its' name or by its rating. Enter your search query or rating and click the adjacent search button.
+				<h3 class=" text-center text-white text-uppercase font-weight-bold">Search Results</h3>
+				<p class="mb-4 text-center text-white">PokeStop Search results are displayed on a map and as tabular
+					results below.
 				</p>
 
-				<form class="input-group mb-3" onsubmit="return submitForm(event)">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Search by Title</span>
+				<!-- row for the map -->
+				<div class="w-100 mb-4">
+					<div class="card lg-4 shadow--sm">
+						<!-- iframe for the map -->
+						<!-- <iframe class="card map"
+							src="https://maps.google.com/maps?q=mcmaster&t=&z=16&ie=UTF8&iwloc=&output=embed"
+							allowfullscreen></iframe> -->
+						<div class="card map" id="map"></div>
 					</div>
-					<input type="text" class="form-control" placeholder="Enter your query"
-						aria-label="Recipient's username">
-					<div class="input-group-append">
-						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
-					</div>
-				</form>
-
-				<form class="input-group mb-3" onsubmit="return submitForm(event)">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Search by Rating</span>
-					</div>
-					<select class="custom-select" id="inputGroupSelect04">
-						<option selected>Choose...</option>
-						<option value="1">1 Star</option>
-						<option value="2">2 Stars</option>
-						<option value="3">3 Stars</option>
-						<option value="4">4 Stars</option>
-						<option value="5">5 Stars</option>
-					</select>
-					<div class="input-group-append">
-						<button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
-					</div>
-				</form>
-
-				<div class="input-group mb-3">
-					<button class="btn btn-light mx-auto" onclick="getLocation()">Search Near Your Location <i
-							class="fas fa-search"></i></button>
 				</div>
 
-				<div class="input-group mb-3">
-					<h6 id="latlong" class="mx-auto text-white">Found you at: </h6>
+				<!-- list of cards for the results -->
+				<div class="row" id="search-cards">
+					<!-- Below is a template card, all cards are populated by js -->
+					<!-- <div class="col-lg-4"> -->
+						<!-- <a href="./pokestop.php" class="card card--clickable mb-4 shadow--sm"> -->
+							<!-- random images were used temporarily for each result -->
+							<!-- <img class="card-img-top img--search" alt="PokeStop Image" -->
+								<!-- src="https://www7.mississauga.ca/documents/miway/transitway/Mississauga-Transitway_Erin-Mills-Station_002_1024x677.jpg" -->
+								<!-- data-holder-rendered="true"> -->
+							<!-- each card has some temporary hardcoded text to show what it may look like -->
+							<!-- <div class="card-body"> -->
+								<!-- <h5 class="card-title">PokeStop Title</h5> -->
+								<!-- <p class="card-text">33 Norfolk St N, Hamilton, ON L8S 3J9</p> -->
+								<!-- <p class="card-text"><small class="text-muted">Added 10 days ago</small></p> -->
+							<!-- </div> -->
+						<!-- </a> -->
+					<!-- </div> -->
 				</div>
-
-
 			</div>
 		</div>
 
@@ -142,7 +132,9 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script>
-	<script src="search.js"></script>
+	<script src="search-results.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBnMuPBJUs37mOls7fPhrcF0E5MPe3l4Y&libraries=geometry&callback=initMap&language=en"
+		async defer></script>
 </body>
 
 </html>

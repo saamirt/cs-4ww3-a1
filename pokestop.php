@@ -30,7 +30,7 @@
 	<!-- header that appears on every page -->
 	<header class="header">
 		<!-- main title which also serves as a link back to the home page -->
-		<a href="index.html">
+		<a href="index.php">
 			<h1 class="header__title">PokeStop Locator</h1>
 		</a>
 		<!-- navigation menu -->
@@ -46,16 +46,16 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mx-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="index.html">Search <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="index.php">Search <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="search-results.html">Results</a>
+						<a class="nav-link" href="search-results.php">Results</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="submission.html">Submission</a>
+						<a class="nav-link" href="submission.php">Submission</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="user-registration.html">Registration</a>
+						<a class="nav-link" href="user-registration.php">Registration</a>
 					</li>
 				</ul>
 			</div>

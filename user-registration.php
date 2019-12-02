@@ -1,3 +1,42 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+/**
+ * Use an HTML form to create a new entry in the
+ * users table.
+ *
+ */
+if (isset($_POST['submit'])) {
+	require "../config.php";
+	require "../common.php";
+
+	try {
+		$connection = new PDO($dsn, $username, $password, $options);
+
+		$new_user = array(
+			"firstname" => $_POST['firstname'],
+			"lastname" => $_POST['lastname'],
+			"email"     => $_POST['email'],
+			"password"  => $_POST['password'],
+			"birthdate" => $_POST['birthdate']
+		);
+		// $sql = sprintf(
+		// 	"INSERT INTO %s (%s) values (%s)",
+		// 	"users",
+		// 	implode(", ", array_keys($new_user)),
+		// 	":" . implode(", :", array_keys($new_user))
+		// );
+		$sql = "INSERT INTO `users` (`userID`, `firstname`, `lastname`, `email`, `birthdate`, `password`) VALUES ('4', 'Aamir', 'Tahir', 'saamirt@gmail.com', '1999-05-01', 'aamir')";
+
+		$statement = $connection->prepare($sql);
+		$statement->execute($new_user);
+	} catch (PDOException $error) {
+		echo $error->getMessage();
+	}
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -12,12 +51,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
 
 	<!-- Using font from google fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&amp;display=swap"
-		rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&amp;display=swap" rel="stylesheet" />
 
 	<!-- Using bootstrap for more responsive site -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 
 	<!-- linking my own external stylesheet -->
 	<link rel="stylesheet" href="style.css" />
@@ -30,15 +67,13 @@
 	<!-- header that appears on every page -->
 	<header class="header">
 		<!-- main title which also serves as a link back to the home page -->
-		<a href="index.html">
+		<a href="index.php">
 			<h1 class="header__title">PokeStop Locator</h1>
 		</a>
 		<!-- navigation menu -->
 		<nav class="navbar navbar-expand-md navbar-light">
 			<!-- button for when screen gets too small to display all nav items -->
-			<button class="navbar-toggler mx-auto" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
+			<button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
@@ -46,16 +81,16 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mx-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="index.html">Search <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="index.php">Search <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="search-results.html">Results</a>
+						<a class="nav-link" href="search-results.php">Results</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="submission.html">Submission</a>
+						<a class="nav-link" href="submission.php">Submission</a>
 					</li>
 					<li class="nav-item active">
-						<a class="nav-link" href="user-registration.html">Registration</a>
+						<a class="nav-link" href="user-registration.php">Registration</a>
 					</li>
 				</ul>
 			</div>
@@ -72,29 +107,30 @@
 						<h5 class="card-title text-center">Register a New User</h5>
 						<p class="card-text text-center">Complete this form to sign up a new user. </p>
 
-						<form class="needs-validation" novalidate onsubmit="return validate(this)">
+						<form class="needs-validation" novalidate method="post">
 							<h5 id="error"></h5>
+							<div class="form-row">
+								<div class="col-md-6 mb-3">
+									<label for="firstname">First Name</label>
+									<!-- text type input -->
+									<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name" value="" required>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="lastname">Last Name</label>
+									<!-- text type input -->
+									<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name" value="" required>
+								</div>
+							</div>
 							<div class="form-group">
-								<label for="name-input">Name</label>
-								<input type="text" pattern="^ *[^ ].*" class="form-control" id="name-input"
-									placeholder="Enter name" required>
+								<label for="email">Email address</label>
+								<input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
 								<div class="valid-feedback">
 									Looks good!
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="email-input">Email address</label>
-								<input type="email"
-									pattern="^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,})+$"
-									class="form-control" id="email-input" placeholder="Enter email" required>
-								<div class="valid-feedback">
-									Looks good!
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="password-input">Password</label>
-								<input type="password" class="form-control" id="password-input"
-									aria-describedby="password-help" placeholder="Password" required>
+								<label for="password">Password</label>
+								<input type="password" class="form-control" id="password" name="password" aria-describedby="password-help" placeholder="Password" required>
 								<small id="password-help" class="form-text text-muted">Make sure not to tell anyone else
 									this password.</small>
 								<div class="valid-feedback">
@@ -102,8 +138,8 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="date-input">Date of Birth</label>
-								<input class="form-control" type="date" id="date-input" required>
+								<label for="birthdate">Date of Birth</label>
+								<input class="form-control" type="date" id="birthdate" name="birthdate" required>
 							</div>
 							<div class="form-group">
 								<label for="number-input">Favorite Number</label>
@@ -114,26 +150,22 @@
 							</div>
 							<div class="form-group">
 								<label for="bio-input">Your Profile Bio</label>
-								<textarea class="form-control" id="bio-input" rows="3"
-									aria-describedby="bio-help"></textarea>
+								<textarea class="form-control" id="bio-input" rows="3" aria-describedby="bio-help"></textarea>
 								<small id="bio-help" class="form-text text-muted">You can write a bit about yourself
 									here.</small>
 							</div>
 							<div class="form-group">
 								<label>Which Starter Pokemon is your favorite?</label>
 								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" name="starter-choice"
-										id="starter-choice-1" value="option1" required>
+									<input type="radio" class="custom-control-input" name="starter-choice" id="starter-choice-1" value="option1" required>
 									<label class="custom-control-label" for="starter-choice-1">Charmander</label>
 								</div>
 								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" name="starter-choice"
-										id="starter-choice-2" value="option2" required>
+									<input type="radio" class="custom-control-input" name="starter-choice" id="starter-choice-2" value="option2" required>
 									<label class="custom-control-label" for="starter-choice-2">Squirtle</label>
 								</div>
 								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" name="starter-choice"
-										id="starter-choice-3" value="option3" required>
+									<input type="radio" class="custom-control-input" name="starter-choice" id="starter-choice-3" value="option3" required>
 									<label class="custom-control-label" for="starter-choice-3">Bulbasaur</label>
 								</div>
 							</div>
@@ -170,15 +202,9 @@
 	</footer>
 
 	<!-- scripts for later use (in next parts) -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="user-registration.js"></script>
 </body>
 

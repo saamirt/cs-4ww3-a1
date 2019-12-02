@@ -260,6 +260,6 @@ function storeStop(title, lat, lng, img, desc = "") {
 		"currentStop",
 		JSON.stringify({ title, loc: { lat, lng }, img, desc })
 	);
-	window.location.href = "./pokestop.html";
-	// window.location.href = `./pokestop.html?title=${title}&lat=${lat}&lng=${lng}&img=${img}&`;
+	window.location.href = "./pokestop.php";
+	// window.location.href = `./pokestop.php?title=${title}&lat=${lat}&lng=${lng}&img=${img}&`;
 }
