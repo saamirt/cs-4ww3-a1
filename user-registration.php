@@ -12,8 +12,11 @@ if (isset($_POST['submit'])) {
         $connection = new PDO($dsn, $username, $password, $options);
 
         $new_user = array(
+            "firstname" => $_POST['firstname'],
+            "lastname" => $_POST['lastname'],
             "email" => $_POST['email'],
             "passwordHash" => sha1($_POST['password']),
+            "birthdate" => $_POST['birthdate']
         );
 
         // generate sql query to add user
